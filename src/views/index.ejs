@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Management</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+    }
+    .title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+    color: #333;
+    margin-bottom: 25px;
+    letter-spacing: 3px;
+}
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 450px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2{
+        text-align: center;
+        color: rgb(48, 48, 48);
+        font-size: large;
+        
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 10px;
+        background: #330227;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #22011a;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        background: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 8px;
+    }
+
+    a {
+        text-decoration: none;
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    .edit {
+        color: #330227;
+    }
+
+    .delete {
+        color: #f44336;
+    }
+    table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th, td {
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th {
+    background:#330227;
+    color:white;
+}
+
+tr:nth-child(even) {
+    background:#f9f9f9;
+}
+</style>
+
+</head>
+
+<body>
+<h2 class="title">STUDENT MANAGEMENT</h2>
+    <div class="container">
+
+        <h2>Add Student</h2>
+
+        <form action="/students" method="POST">
+
+        <input name="name" placeholder="Name" required minlength="3">
+        
+        <input name="age" type="number" placeholder="Age" required min="1" max="100">
+        
+        <input name="course" placeholder="Course" required minlength="2">
+
+            <button type="submit">Add Student</button>
+
+        </form>
+
+        <h2>Students List</h2>
+
+    <table>
+    
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Course</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+    
+            <% if(students && students.length> 0){ %>
+    
+                <% students.forEach(student=> { %>
+    
+                    <tr>
+    
+                        <td>
+                            <%= student.name %>
+                        </td>
+                        <td>
+                            <%= student.age %>
+                        </td>
+                        <td>
+                            <%= student.course %>
+                        </td>
+    
+                        <td>
+                            <a class="edit" href="/edit/<%= student.id %>">Edit</a>
+                            <a class="delete" href="/delete/<%= student.id %>">Delete</a>
+                        </td>
+    
+                    </tr>
+    
+                    <% }) %>
+    
+                        <% } else { %>
+    
+                            <tr>
+                                <td colspan="4">No students yet</td>
+                            </tr>
+    
+                            <% } %>
+    
+        </tbody>
+    
+    </table>
+
+    </div>
+
+
+    <div style="margin-top:20px;text-align:center; color: #333;">
+
+        <% if(page> 1){ %>
+            <a href="/?page=<%= page-1 %>">Previous</a>
+            <% } %>
+
+                <span style="margin:0 10px;">
+                    Page <%= page %> of <%= totalPages %>
+                </span>
+
+                <% if(page < totalPages){ %>
+                    <a href="/?page=<%= page+1 %>">Next</a>
+                    <% } %>
+
+    </div>
+
+</body>
+
+</html>
