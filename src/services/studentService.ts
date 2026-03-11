@@ -25,8 +25,8 @@ export class StudentService {
       return { success: false, message: "Error creating student" };
     }
   }
-  getStudents() {
-    return this.repo.getAll();
+  async getStudents() {
+    return await this.repo.getAll();
   }
   updateStudent(id: number, req: StudentRequest) {
     this.repo.update(id, req.name, Number(req.age), req.course);
@@ -34,8 +34,8 @@ export class StudentService {
   deleteStudent(id: number) {
     this.repo.delete(id);
   }
-  getStudent(page: number, limit: number) {
-    const allStudents = this.repo.getAll();
+  async getStudent(page: number, limit: number) {
+    const allStudents = await this.repo.getAll();
 
     const start = (page - 1) * limit;
     const end = start + limit;

@@ -1,27 +1,30 @@
+import { connectDB } from "../db/db";
 import { Student } from "../models/student";
 
 export class StudentRepository {
-  private students: Student[] = [];
+  async create(student: Student) {
+    const db = await connectDB();
 
-  create(student: Student) {
-    this.students.push(student);
-    console.log("Students:", this.students);
+    await db.collection("students").insertOne(student);
   }
 
-  getAll() {
-    return this.students;
+  async getAll() {
+    const db = await connectDB();
+
+    return await db.collection("students").find().toArray();
   }
 
-  update(id: number, name: string, age: number, course: string) {
-    const student = this.students.find((s) => s.id === id);
+  async delete(id: number) {
+    const db = await connectDB();
 
-    if (student) {
-      student.name = name;
-      student.age = age;
-      student.course = course;
-    }
+    await db.collection("students").deleteOne({ id: id });
   }
-  delete(id: number) {
-    this.students = this.students.filter((s) => s.id !== id);
+
+  async update(id: number, name: string, age: number, course: string) {
+    const db = await connectDB();
+
+    await db
+      .collection("students")
+      .updateOne({ id: id }, { $set: { name, age, course } });
   }
 }
