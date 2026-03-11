@@ -3,14 +3,28 @@ import path from "path";
 import studentRoutes from "./routes/studentRoutes";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import session from "express-session";
+
+
 const app = express();
 
+app.use(
+  session({
+    secret: "admin-secret",
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 app.set("view engine", "ejs");
 
 app.set("views", path.join(__dirname, "../src/views"));
 
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 app.use("/", studentRoutes);
 
 
