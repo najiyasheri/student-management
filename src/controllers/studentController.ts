@@ -33,6 +33,7 @@ export class StudentController {
       students: result.students,
       page,
       totalPages: result.totalPages,
+      limit
     });
   }
   async editStudent(req: Request, res: Response) {

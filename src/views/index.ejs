@@ -138,6 +138,7 @@ tr:nth-child(even) {
     
         <thead>
             <tr>
+                <th>Sl No</th>
                 <th>Name</th>
                 <th>Age</th>
                 <th>Course</th>
@@ -149,10 +150,12 @@ tr:nth-child(even) {
     
             <% if(students && students.length> 0){ %>
     
-                <% students.forEach(student=> { %>
+                <% students.forEach((student,index)=> { %>
     
                     <tr>
-    
+                        <td>
+                            <%= (page - 1) * limit + index + 1 %>
+                        </td>
                         <td>
                             <%= student.name %>
                         </td>
